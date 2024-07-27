@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= name %>'s Bio</title>
+    <link rel="stylesheet" href="/styles/style.css">
+</head>
+<body>
+    <!-- Click to Enter Screen -->
+    <div id="intro-screen">
+        <button id="enter-button">Click to Enter</button>
+    </div>
+
+    <div class="background-video">
+        <video autoplay muted loop id="background-video">
+            <source src="/videos/bg1.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+    </div>
+    <div class="container">
+        <div class="bio-card">
+            <img src="<%= image %>" alt="<%= name %>" class="profile-image">
+            <h1 class="name"><%= name %></h1>
+            <p id="description" class="description"></p>
+            <div class="social-links">
+                <a href="https://discord.com/users/1230319937155760131" target="_blank" class="social-link">
+                    <img src="/images/discord.svg" alt="Discord" class="social-icon">
+                </a>
+                <a href="https://github.com/keiranscript" target="_blank" class="social-link">
+                    <img src="/images/github.svg" alt="GitHub" class="social-icon">
+                </a>
+                <a href="https://e-z.bio/kc" target="_blank" class="social-link">
+                    <img src="/images/e-z.png" alt="E-Z.host" class="social-icon">
+                </a>
+            </div>
+        </div>
+    </div>
+    <!-- Background Music Player -->
+    <audio id="background-music" preload="auto" loop></audio>
+
+    <!-- Toggle Button -->
+    <div id="audio-toggle">
+        <img src="/images/play.svg" alt="Play" id="play-button">
+        <img src="/images/pause.svg" alt="Pause" id="pause-button" style="display: none;">
+    </div>
+    
+    <script>
+    document.addEventListener("DOMContentLoaded", function() {
+    const introScreen = document.getElementById('intro-screen');
+    const audioElement = document.getElementById('background-music');
+    const playButton = document.getElementById('play-button');
+    const pauseButton = document.getElementById('pause-button');
+    const descriptionText = "<%= description %>";
+    let index = 0;
+    const speed = 100; // typing speed in milliseconds
+
+    function typeWriter() {
+        if (index < descriptionText.length) {
+            document.getElementById("description").innerHTML = descriptionText.substring(0, index + 1) + '<span class="caret">|</span>';
+            index++;
+            setTimeout(typeWriter, speed);
+        } else {
+            document.getElementById("description").innerHTML = descriptionText; // Remove caret after typing
+        }
+    }
+
+    function handleMusic() {
+        // Specify the audio files directly
+        const audioFiles = [
+            '/audio/I_Watch_The_Moon.mp3',
+            // Add more tracks if needed
+        ];
+
+        if (audioFiles.length > 0) {
+            let currentTrackIndex = 0;
+
+            function loadTrack() {
+                audioElement.src = audioFiles[currentTrackIndex];
+                audioElement.play().then(() => {
+                    console.log("Audio is playing.");
+                }).catch(error => {
+                    console.error("Error playing audio:", error);
+                });
+            }
+
+            audioElement.addEventListener('ended', () => {
+                currentTrackIndex = (currentTrackIndex + 1) % audioFiles.length;
+                loadTrack();
+            });
+
+            loadTrack(); // Load the first track
+
+            playButton.addEventListener('click', () => {
+                audioElement.play().then(() => {
+                    playButton.style.display = 'none';
+                    pauseButton.style.display = 'block';
+                }).catch(error => {
+                    console.error("Error playing audio:", error);
+                });
+            });
+
+            pauseButton.addEventListener('click', () => {
+                audioElement.pause();
+                playButton.style.display = 'block';
+                pauseButton.style.display = 'none';
+            });
+        } else {
+            console.error("No audio files found.");
+        }
+    }
+
+    introScreen.addEventListener('click', () => {
+        introScreen.style.display = 'none'; // Hide the intro screen
+        handleMusic(); // Start loading and playing music
+        typeWriter(); // Start typewriter effect
+    });
+});
+
+    </script>
+</body>
+</html>
