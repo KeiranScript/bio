@@ -1,5 +1,6 @@
 const express = require('express');
 const path = require('path');
+const fs = require('fs');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -12,12 +13,33 @@ app.set('views', path.join(__dirname, 'views'));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use('/audio', express.static(path.join(__dirname, 'public/audio')));
 
+// Middleware to parse JSON bodies
+app.use(express.json());
+
 // Route for the bio page
 app.get('/', (req, res) => {
     res.render('index', {
         name: 'Keiran',
-        description: 'i make things',
+        description: 'I make things',
         image: 'http://kuuichi.xyz/files/1230319937155760131/2nk0wou5d1ba.gif'
+    });
+});
+
+// View counter endpoint
+app.post('/view-counter', (req, res) => {
+    const filePath = path.join(__dirname, 'views.json');
+    fs.readFile(filePath, 'utf8', (err, data) => {
+        if (err) {
+            return res.status(500).json({ error: 'Failed to read view count' });
+        }
+        let viewData = JSON.parse(data);
+        viewData.count += 1;
+        fs.writeFile(filePath, JSON.stringify(viewData, null, 2), (err) => {
+            if (err) {
+                return res.status(500).json({ error: 'Failed to update view count' });
+            }
+            res.json({ count: viewData.count });
+        });
     });
 });
 
@@ -25,4 +47,3 @@ app.get('/', (req, res) => {
 app.listen(PORT, () => {
     console.log(`Server is running on http://localhost:${PORT}`);
 });
-

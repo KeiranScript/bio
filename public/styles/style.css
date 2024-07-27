@@ -166,6 +166,42 @@ body {
   /* Accent color on hover */
 }
 
+/* SVG Styling */
+.view-counter-icon {
+  width: 50px;
+  /* Adjust size as needed */
+  height: 50px;
+  /* Adjust size as needed */
+  fill: white;
+  /* SVG color */
+}
+
+.view-counter {
+  color: white;
+  /* Counter text color */
+  font-size: 1.2em;
+  /* Adjust size as needed */
+  margin-left: 10px;
+  /* Spacing between icon and counter */
+}
+
+#counter-container {
+  display: flex;
+  align-items: center;
+  position: fixed;
+  /* Change to fixed to position relative to viewport */
+  top: 10px;
+  /* Distance from top */
+  left: 10px;
+  /* Distance from left */
+  background: rgba(0, 0, 0, 0.5);
+  /* Optional: Add background for visibility */
+  padding: 10px;
+  /* Optional: Add padding */
+  border-radius: 5px;
+  /* Optional: Rounded corners */
+}
+
 @keyframes blink-caret {
 
   from,
