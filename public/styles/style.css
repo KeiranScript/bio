@@ -10,13 +10,64 @@
   /* Dark grey for comments */
   --caution: #ffb86c;
   /* Caution color for highlights */
+  --glow-color-1: #ff79c6;
+  /* Pink */
+  --glow-color-2: #ffb86c;
+  /* Orange */
+  --glow-color-3: #50fa7b;
+  /* Green */
+  --glow-color-4: #bd93f9;
+  /* Purple */
+
+}
+
+.glow-color-1 .profile-image {
+  border: 5px solid var(--glow-color-1);
+}
+
+.glow-color-1 .name {
+  color: var(--glow-color-1);
+  text-shadow: 0 0 10px var(--glow-color-1);
+}
+
+.glow-color-2 .profile-image {
+  border: 5px solid var(--glow-color-2);
+}
+
+.glow-color-2 .name {
+  color: var(--glow-color-2);
+  text-shadow: 0 0 10px var(--glow-color-2);
+}
+
+.glow-color-3 .profile-image {
+  border: 5px solid var(--glow-color-3);
+}
+
+.glow-color-3 .name {
+  color: var(--glow-color-3);
+  text-shadow: 0 0 10px var(--glow-color-3);
+}
+
+.glow-color-4 .profile-image {
+  border: 5px solid var(--glow-color-4);
+}
+
+.glow-color-4 .name {
+  color: var(--glow-color-4);
+  text-shadow: 0 0 10px var(--glow-color-4);
+}
+
+* {
+  transition: all 0.5s ease-out;
 }
 
 body {
   margin: 0;
-  font-family: Arial, sans-serif;
+  padding: 0;
+  font-family: 'Arial', sans-serif;
+  color: #fff;
   background-color: var(--background);
-  color: var(--foreground);
+  /* Black background color */
   display: flex;
   align-items: center;
   justify-content: center;
@@ -25,22 +76,24 @@ body {
   position: relative;
 }
 
-.background-video {
+#myVideo {
   position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  overflow: hidden;
-  z-index: -1;
-  filter: blur(8px);
-  /* Blur effect on background video */
+  right: 0;
+  bottom: 0;
+  min-width: 100%;
+  min-height: 100%;
+  z-index: 0;
+  /* Ensure it is behind all other content */
+  object-fit: cover;
 }
 
-#background-video {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
+#intro-screen,
+.container,
+.bio-card {
+  /* Ensure content is styled properly */
+  position: relative;
+  z-index: 1;
+  /* Ensure content is above video */
 }
 
 #intro-screen {
@@ -48,43 +101,53 @@ body {
   top: 0;
   left: 0;
   width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.4);
-  /* Transparent background */
-  backdrop-filter: blur(20px);
-  /* Heavy blur effect */
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.5);
+  /* Semi-transparent background */
+  backdrop-filter: blur(15px);
+  /* Moderate blur effect */
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 10;
+  z-index: 2;
   cursor: pointer;
   /* Indicate that the entire area is clickable */
+  animation: fadeIn 1s ease-in;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
 }
 
 #enter-button {
-  background: rgba(0, 0, 0, 0);
-  /* Transparent background */
+  background: rgba(0, 0, 0, 0.7);
+  /* Semi-transparent background */
   border: none;
-  /* Semi-transparent border */
-  color: rgba(255, 255, 255, 0.9);
-  /* Slightly transparent text color */
-  padding: 20px 40px;
+  /* Remove default border */
+  color: var(--foreground);
+  /* Fully visible text color */
+  padding: 10px 20px;
   font-size: 2em;
-  border-radius: 10px;
+  border-radius: 15px;
   cursor: pointer;
   outline: none;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.6);
-  transition: background 0.3s, color 0.3s, box-shadow 0.3s;
+  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.5);
+  /* Enhanced shadow for a glowing effect */
+  transition: background 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
 }
 
 #enter-button:hover {
   background: rgba(255, 255, 255, 0.1);
   /* Slightly visible on hover */
-  border-color: rgba(255, 255, 255, 0.5);
-  /* Darker border on hover */
-  color: rgba(255, 255, 255, 1);
-  /* Fully visible text on hover */
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.8);
+  color: var(--accent);
+  /* Accent color on hover */
+  box-shadow: 0 12px 25px rgba(0, 0, 0, 0.7);
 }
 
 .container {
@@ -94,18 +157,32 @@ body {
   height: 100%;
   width: 100%;
   position: relative;
+  /* Ensure proper stacking context */
+  z-index: 1;
+  /* Above the video but below the intro-screen */
 }
 
 .bio-card {
-  background-color: rgba(0, 0, 0, 0.7);
-  /* Slightly transparent black background */
-  border-radius: 8px;
+  background-color: rgba(0, 0, 0, 0.8);
+  border-radius: 12px;
   padding: 20px;
   max-width: 500px;
   text-align: center;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.6);
-  backdrop-filter: blur(10px);
-  /* Blur effect on the bio card */
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(12px);
+  animation: slideIn 1s ease-out;
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateY(-30px);
+    opacity: 0;
+  }
+
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
 }
 
 .profile-image {
@@ -114,12 +191,42 @@ body {
   border-radius: 50%;
   object-fit: cover;
   margin-bottom: 15px;
+  border: 5px solid var(--accent);
+  /* Accent border around profile image */
+  filter: drop-shadow(0 0 15px var(--accent));
+  /* Glowing effect */
+  transition: transform 0.3s ease, filter 0.3s ease;
+}
+
+.profile-image:hover {
+  transform: scale(1.1);
+  /* Slightly enlarge on hover */
+  filter: drop-shadow(0 0 30px var(--accent));
+  /* More intense glowing effect on hover */
 }
 
 .name {
-  font-size: 2em;
+  font-size: 2.5em;
   color: var(--accent);
   margin: 0;
+  text-shadow: 0 0 10px var(--accent);
+  /* Glowing text shadow */
+  animation: glowing-text 1.5s infinite;
+  /* Apply the glowing text animation */
+}
+
+@keyframes glowing-text {
+  0% {
+    text-shadow: 0 0 5px var(--accent), 0 0 10px var(--accent), 0 0 15px var(--accent), 0 0 20px var(--accent);
+  }
+
+  50% {
+    text-shadow: 0 0 10px var(--accent), 0 0 20px var(--accent), 0 0 30px var(--accent), 0 0 40px var(--accent);
+  }
+
+  100% {
+    text-shadow: 0 0 5px var(--accent), 0 0 10px var(--accent), 0 0 15px var(--accent), 0 0 20px var(--accent);
+  }
 }
 
 .description {
@@ -130,100 +237,230 @@ body {
   overflow: hidden;
   display: inline-block;
   vertical-align: bottom;
+  animation: typing 4s steps(30, end), blink-caret 0.75s step-end infinite;
+  /* Typing effect and blinking caret animation */
 }
 
-/* Caret */
-.caret {
-  display: inline-block;
-  width: 10px;
-  background-color: var(--accent);
-  animation: blink-caret 1s step-end infinite;
-  /* Adjusted caret animation */
-}
+@keyframes typing {
+  from {
+    width: 0;
+  }
 
-/* Social Media Icons */
-.social-links {
-  margin-top: 20px;
-}
-
-.social-link {
-  margin: 0 10px;
-  display: inline-block;
-}
-
-.social-icon {
-  width: 40px;
-  height: 40px;
-  vertical-align: middle;
-  transition: transform 0.3s;
-  fill: var(--foreground);
-  /* Icons in white */
-}
-
-.social-icon:hover {
-  transform: scale(1.1);
-  fill: var(--accent);
-  /* Accent color on hover */
-}
-
-/* SVG Styling */
-.view-counter-icon {
-  width: 50px;
-  /* Adjust size as needed */
-  height: 50px;
-  /* Adjust size as needed */
-  fill: white;
-  /* SVG color */
-}
-
-.view-counter {
-  color: white;
-  /* Counter text color */
-  font-size: 1.2em;
-  /* Adjust size as needed */
-  margin-left: 10px;
-  /* Spacing between icon and counter */
-}
-
-#counter-container {
-  display: flex;
-  align-items: center;
-  position: fixed;
-  /* Change to fixed to position relative to viewport */
-  top: 10px;
-  /* Distance from top */
-  left: 10px;
-  /* Distance from left */
-  background: rgba(0, 0, 0, 0.5);
-  /* Optional: Add background for visibility */
-  padding: 10px;
-  /* Optional: Add padding */
-  border-radius: 5px;
-  /* Optional: Rounded corners */
+  to {
+    width: 100%;
+  }
 }
 
 @keyframes blink-caret {
 
   from,
   to {
-    background-color: transparent;
+    border-color: transparent;
   }
 
   50% {
-    background-color: var(--accent);
+    border-color: var(--accent);
   }
 }
 
-/* Audio Toggle */
+.social-links {
+  margin-top: 20px;
+}
+
+.social-link {
+  margin: 0 15px;
+  display: inline-block;
+}
+
+.social-icon {
+  width: 50px;
+  height: 50px;
+  vertical-align: middle;
+  transition: transform 0.3s ease;
+  filter: drop-shadow(0 0 10px var(--accent));
+  /* Glowing effect */
+}
+
+.social-icon:hover {
+  transform: scale(1.2);
+  /* Slightly enlarge on hover */
+  filter: drop-shadow(0 0 25px var(--accent));
+  /* More intense glowing effect on hover */
+}
+
+/* Audio Toggle Button */
 #audio-toggle {
   position: absolute;
-  top: 10px;
-  right: 10px;
+  top: 20px;
+  right: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   z-index: 10;
+  /* Ensure it's on top of other elements */
+}
+
+#audio-toggle svg {
+  width: 32px;
+  /* Adjust size for better visibility */
+  height: 32px;
+  /* Adjust size for better visibility */
+  fill: none;
+  /* Ensure only stroke is applied */
+  stroke: #ffffff;
+  /* Match the color scheme */
+  stroke-width: 1.5;
+  /* Consistent stroke width */
+  stroke-linecap: round;
+  /* Rounded line caps */
+  stroke-linejoin: round;
+  /* Rounded line joins */
+  cursor: pointer;
+  /* Ensure it's clickable */
+  margin: 0 5px;
+  /* Space between buttons */
+}
+
+#audio-toggle img:hover {
+  opacity: 0.8;
+}
+
+#audio-toggle #pause-button {
+  display: none;
+  /* Ensure pause button is hidden initially */
 }
 
 #audio-toggle img {
-  width: 40px;
-  height: 40px;
+  width: 50px;
+  height: 50px;
   cursor: pointer;
+  transition: opacity 0.3s ease;
+}
+
+/* View Counter Container */
+#counter-container {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  display: flex;
+  align-items: center;
+  z-index: 9999;
+  /* Ensure it's on top of other elements */
+}
+
+.view-counter-icon {
+  width: 32px;
+  /* Consistent size */
+  height: 32px;
+  /* Consistent size */
+  fill: none;
+  /* Ensure only stroke is applied */
+  stroke: #ffffff;
+  /* Match the color scheme */
+  stroke-width: 1.5;
+  /* Consistent stroke width */
+  stroke-linecap: round;
+  /* Rounded line caps */
+  stroke-linejoin: round;
+  /* Rounded line joins */
+  margin-right: 8px;
+  /* Space between icon and counter */
+}
+
+.view-counter {
+  color: #ffffff;
+  /* White color for text */
+  font-size: 18px;
+  /* Adjust font size for visibility */
+}
+
+/* Add this CSS for the click effect */
+@keyframes clickEffect {
+  0% {
+    transform: scale(1);
+    opacity: 1;
+  }
+
+  100% {
+    transform: scale(2);
+    opacity: 0;
+  }
+}
+
+.click-effect {
+  position: absolute;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.5);
+  pointer-events: none;
+  animation: clickEffect 0.6s ease-out;
+}
+
+/* Particles styles */
+.cursor-particle {
+  position: absolute;
+  width: 15px;
+  /* Size of each particle */
+  height: 15px;
+  /* Size of each particle */
+  background: #fff;
+  /* Brighter pink color */
+  border-radius: 50%;
+  /* Circular shape */
+  pointer-events: none;
+  /* Ensure particles don’t interfere with mouse events */
+  opacity: 0;
+  /* Start hidden */
+  transition: transform 0.6s ease-out, opacity 0.6s ease-out;
+  /* Smooth transition */
+}
+
+/* Navbar styles */
+.navbar {
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 300px;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.8);
+  color: var(--foreground);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  transform: translateX(100%);
+  transition: transform 0.5s ease, backdrop-filter 0.5s ease;
+  z-index: 1000;
+  /* Ensure it is on top of other content */
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+}
+
+.navbar.show {
+  transform: translateX(0);
+}
+
+.navbar ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+.navbar li {
+  margin: 20px 0;
+}
+
+.navbar a {
+  text-decoration: none;
+  color: var(--foreground);
+  font-size: 2em;
+  transition: color 0.3s ease;
+}
+
+.navbar a:hover {
+  color: var(--accent);
+}
+
+/* Page blur effect */
+.blur-effect {
+  backdrop-filter: blur(5px);
+  transition: backdrop-filter 0.5s ease;
 }
