@@ -9,7 +9,10 @@ document.addEventListener('DOMContentLoaded', () => {
     let currentPresetIndex = 0;
     let intervalId = null;
     const beatInterval = 480; // milliseconds
-    const startTimestamp = 33.5; // start toggling at 0:31
+    const startTimestamp = 33.7; // start toggling at 33.7s
+    const pauseTimestamp1 = 77; // pause color change at 77s
+    const resumeTimestamp1 = 127; // resume color change at 127s
+    const pauseTimestamp2 = 168; // pause color change at 168s
     let index = 0;
     const speed = 100; // Typing speed in milliseconds
 
@@ -34,13 +37,41 @@ document.addEventListener('DOMContentLoaded', () => {
         console.log("Started automatic glow color change."); // Debugging line
     }
 
-    function handleAudioTimeUpdate() {
-        const currentTime = audioElement.currentTime;
-        console.log(`Audio current time: ${currentTime}`); // Debugging line
-        if (currentTime >= startTimestamp && !intervalId) {
-            startAutomaticGlowColorChange();
-            console.log(`Automatic color change should start now at ${currentTime}`); // Debugging line
+    function stopAutomaticGlowColorChange() {
+        if (intervalId) clearInterval(intervalId);
+        console.log("Stopped automatic glow color change."); // Debugging line
+    }
+
+    function checkAudioTime() {
+        console.log(`Audio current time: ${audioElement.currentTime}`);
+
+        if (audioElement.currentTime >= startTimestamp && audioElement.currentTime < pauseTimestamp1) {
+            if (!intervalId) {
+                startAutomaticGlowColorChange();
+            }
+        } else if (audioElement.currentTime >= pauseTimestamp1 && audioElement.currentTime < resumeTimestamp1) {
+            stopAutomaticGlowColorChange();
+        } else if (audioElement.currentTime >= resumeTimestamp1 && audioElement.currentTime < pauseTimestamp2) {
+            if (!intervalId) {
+                startAutomaticGlowColorChange();
+            }
+        } else if (audioElement.currentTime >= pauseTimestamp2) {
+            stopAutomaticGlowColorChange();
         }
+    }
+
+    function handleAudioPlay() {
+        console.log('Audio is playing');
+        audioElement.addEventListener('timeupdate', checkAudioTime);
+    }
+
+    function handleAudioEnd() {
+        console.log('Audio ended, restarting...');
+        // Reset the audio and start over
+        audioElement.currentTime = 0;
+        audioElement.play().catch(error => {
+            console.error("Error playing audio:", error);
+        });
     }
 
     function toggleNavbar() {
@@ -65,7 +96,12 @@ document.addEventListener('DOMContentLoaded', () => {
             createRipple(event.clientX, event.clientY);
         });
 
-        audioElement.addEventListener('timeupdate', handleAudioTimeUpdate);
+        audioElement.addEventListener('loadeddata', () => {
+            console.log('Audio loaded and ready to play.');
+        });
+
+        audioElement.addEventListener('play', handleAudioPlay);
+        audioElement.addEventListener('ended', handleAudioEnd);
 
         playButton.addEventListener('click', () => {
             audioElement.pause();
@@ -121,13 +157,5 @@ document.addEventListener('DOMContentLoaded', () => {
     audioElement.src = "https://kuuichi.xyz/files/1230319937155760131/r1wx5702md0y.mp3";
     audioElement.pause();
 
-    audioElement.addEventListener('ended', () => {
-        audioElement.src = "https://kuuichi.xyz/files/1230319937155760131/r1wx5702md0y.mp3";
-        audioElement.play().catch(error => {
-            console.error("Error playing audio:", error);
-        });
-    });
-
     initializeEventListeners();
 });
-
