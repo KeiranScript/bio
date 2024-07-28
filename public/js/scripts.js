@@ -4,17 +4,24 @@ document.addEventListener('DOMContentLoaded', () => {
     const playButton = document.getElementById('play-button');
     const pauseButton = document.getElementById('pause-button');
     const descriptionElement = document.getElementById("description");
+    const keybindsPopup = document.getElementById('keybinds-popup');
+    const keybindsClose = document.getElementById('keybinds-close');
+    const bioCard = document.querySelector('.bio-card');
     const descriptionText = descriptionElement.innerText;
     const glowPresets = ['glow-color-1', 'glow-color-2', 'glow-color-3', 'glow-color-4'];
-    let currentPresetIndex = 0;
-    let intervalId = null;
     const beatInterval = 480; // milliseconds
     const startTimestamp = 33.7; // start toggling at 33.7s
     const pauseTimestamp1 = 77; // pause color change at 77s
     const resumeTimestamp1 = 127; // resume color change at 127s
     const pauseTimestamp2 = 168; // pause color change at 168s
-    let index = 0;
     const speed = 100; // Typing speed in milliseconds
+    const introScreen = document.getElementById('intro-screen');
+
+    let startX, startY, startLeft, startTop;
+    let currentPresetIndex = 0;
+    let isDragging = false;
+    let intervalId = null;
+    let index = 0;
 
     // Update background gradient on mouse move
     document.addEventListener('mousemove', (event) => {
@@ -22,6 +29,32 @@ document.addEventListener('DOMContentLoaded', () => {
         body.style.setProperty('--mouse-y', `${event.clientY}px`);
     });
 
+    function onMouseDown(event) {
+        isDragging = true;
+        startX = event.clientX;
+        startY = event.clientY;
+        const style = getComputedStyle(bioCard);
+        startLeft = parseFloat(style.left);
+        startTop = parseFloat(style.top);
+        document.addEventListener('mousemove', onMouseMove);
+        document.addEventListener('mouseup', onMouseUp);
+    }
+
+    function onMouseMove(event) {
+        if (isDragging) {
+            const deltaX = event.clientX - startX;
+            const deltaY = event.clientY - startY;
+            bioCard.style.left = `${startLeft + deltaX}px`;
+            bioCard.style.top = `${startTop + deltaY}px`;
+        }
+    }
+
+    function onMouseUp() {
+        isDragging = false;
+        document.removeEventListener('mousemove', onMouseMove);
+        document.removeEventListener('mouseup', onMouseUp);
+    }
+    
     function updateGlowColor() {
         console.log("Updating glow color..."); // Debugging line
         body.classList.remove(...glowPresets);
@@ -82,6 +115,14 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
+    function showKeybindsPopup() {
+        keybindsPopup.style.display = 'block';
+    }
+
+    function hideKeybindsPopup() {
+        keybindsPopup.style.display = 'none';
+    }
+
     function initializeEventListeners() {
         document.addEventListener('keydown', (event) => {
             if (event.key === 'Tab') {
@@ -89,6 +130,20 @@ document.addEventListener('DOMContentLoaded', () => {
                 updateGlowColor();
             } else if (event.key.toLowerCase() === 'f') {
                 toggleNavbar();
+            } else if (event.key === '/') {
+            event.preventDefault(); // Prevent default action
+            showKeybindsPopup();
+            }
+        });
+
+        
+        keybindsClose.addEventListener('click', hideKeybindsPopup);
+
+        bioCard.addEventListener('mousedown', onMouseDown);
+
+        document.addEventListener('click', (event) => {
+            if (keybindsPopup.style.display === 'block' && !keybindsPopup.contains(event.target) && event.target !== keybindsClose) {
+                hideKeybindsPopup();
             }
         });
 
@@ -117,7 +172,6 @@ document.addEventListener('DOMContentLoaded', () => {
             pauseButton.style.display = 'none';
         });
 
-        const introScreen = document.getElementById('intro-screen');
         introScreen.addEventListener('click', () => {
             introScreen.style.display = 'none';
             typeWriter();

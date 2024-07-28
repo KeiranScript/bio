@@ -115,6 +115,7 @@ body {
   overflow: hidden;
   position: relative;
   transition: background 0.5s ease-out;
+  user-select: none;
 }
 
 #myVideo {
@@ -132,9 +133,14 @@ body {
 .container,
 .bio-card {
   /* Ensure content is styled properly */
-  position: relative;
+  position: absolute;
   z-index: 1;
   /* Ensure content is above video */
+}
+
+.bio-card img {
+  pointer-events: none;
+  /* Prevents the image from receiving mouse events */
 }
 
 #intro-screen {
@@ -189,6 +195,57 @@ body {
   color: var(--accent);
   /* Accent color on hover */
   box-shadow: 0 12px 25px rgba(0, 0, 0, 0.7);
+}
+
+/* Keybinds Popup Styles */
+.keybinds-popup {
+  display: none;
+  /* Hidden by default */
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 80%;
+  max-width: 400px;
+  background-color: rgba(0, 0, 0, 0.8);
+  color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  z-index: 1000;
+  padding: 20px;
+  text-align: center;
+}
+
+.keybinds-content {
+  position: relative;
+}
+
+.keybinds-content h2 {
+  margin-top: 0;
+}
+
+.keybinds-content ul {
+  list-style: none;
+  padding: 0;
+}
+
+.keybinds-content li {
+  margin: 10px 0;
+}
+
+.keybinds-close {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: transparent;
+  border: none;
+  font-size: 20px;
+  color: #fff;
+  cursor: pointer;
+}
+
+.keybinds-close:hover {
+  color: #ddd;
 }
 
 .container {
@@ -319,6 +376,7 @@ body {
   vertical-align: middle;
   transition: transform 0.3s ease;
   filter: drop-shadow(0 0 10px var(--accent));
+  pointer-events: none;
   /* Glowing effect */
 }
 
