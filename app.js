@@ -13,6 +13,9 @@ app.set('views', path.join(__dirname, 'views'));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use('/audio', express.static(path.join(__dirname, 'public/audio')));
 
+// Serve favicon.ico from the project root
+app.use('/favicon.ico', express.static(path.join(__dirname, 'favicon.ico')));
+
 // Middleware to parse JSON bodies
 app.use(express.json());
 

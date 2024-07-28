@@ -1,25 +1,66 @@
-/* Black Color Scheme */
 :root {
   --background: #000000;
-  /* Black background */
   --foreground: #ffffff;
-  /* White text */
   --accent: #ff79c6;
-  /* Accent color for highlights */
   --comment: #4a4a4a;
-  /* Dark grey for comments */
   --caution: #ffb86c;
-  /* Caution color for highlights */
   --glow-color-1: #ff79c6;
-  /* Pink */
   --glow-color-2: #ffb86c;
-  /* Orange */
   --glow-color-3: #50fa7b;
-  /* Green */
   --glow-color-4: #bd93f9;
-  /* Purple */
-
 }
+
+body.glow-color-1,
+body.glow-color-2,
+body.glow-color-3,
+body.glow-color-4 {
+  --accent: var(--glow-color-1);
+}
+
+body.glow-color-1 .profile-image,
+body.glow-color-1 .name,
+body.glow-color-1 .social-icon,
+body.glow-color-1 .view-counter,
+body.glow-color-1 .cursor-particle {
+  border-color: var(--glow-color-1);
+  color: var(--glow-color-1);
+  text-shadow: 0 0 10px var(--glow-color-1);
+  filter: drop-shadow(0 0 15px var(--glow-color-1));
+}
+
+body.glow-color-2 .profile-image,
+body.glow-color-2 .name,
+body.glow-color-2 .social-icon,
+body.glow-color-2 .view-counter,
+body.glow-color-2 .cursor-particle {
+  border-color: var(--glow-color-2);
+  color: var(--glow-color-2);
+  text-shadow: 0 0 10px var(--glow-color-2);
+  filter: drop-shadow(0 0 15px var(--glow-color-2));
+}
+
+body.glow-color-3 .profile-image,
+body.glow-color-3 .name,
+body.glow-color-3 .social-icon,
+body.glow-color-3 .view-counter,
+body.glow-color-3 .cursor-particle {
+  border-color: var(--glow-color-3);
+  color: var(--glow-color-3);
+  text-shadow: 0 0 10px var(--glow-color-3);
+  filter: drop-shadow(0 0 15px var(--glow-color-3));
+}
+
+body.glow-color-4 .profile-image,
+body.glow-color-4 .name,
+body.glow-color-4 .social-icon,
+body.glow-color-4 .view-counter,
+body.glow-color-4 .cursor-particle {
+  border-color: var(--glow-color-4);
+  color: var(--glow-color-4);
+  text-shadow: 0 0 10px var(--glow-color-4);
+  filter: drop-shadow(0 0 15px var(--glow-color-4));
+}
+
 
 .glow-color-1 .profile-image {
   border: 5px solid var(--glow-color-1);
@@ -65,15 +106,15 @@ body {
   margin: 0;
   padding: 0;
   font-family: 'Arial', sans-serif;
-  color: #fff;
-  background-color: var(--background);
-  /* Black background color */
+  color: var(--foreground);
+  background: radial-gradient(circle at var(--mouse-x) var(--mouse-y), var(--accent), var(--background));
   display: flex;
   align-items: center;
   justify-content: center;
   height: 100vh;
   overflow: hidden;
   position: relative;
+  transition: background 0.5s ease-out;
 }
 
 #myVideo {
@@ -372,46 +413,6 @@ body {
   /* White color for text */
   font-size: 18px;
   /* Adjust font size for visibility */
-}
-
-/* Add this CSS for the click effect */
-@keyframes clickEffect {
-  0% {
-    transform: scale(1);
-    opacity: 1;
-  }
-
-  100% {
-    transform: scale(2);
-    opacity: 0;
-  }
-}
-
-.click-effect {
-  position: absolute;
-  border-radius: 50%;
-  background: rgba(255, 255, 255, 0.5);
-  pointer-events: none;
-  animation: clickEffect 0.6s ease-out;
-}
-
-/* Particles styles */
-.cursor-particle {
-  position: absolute;
-  width: 15px;
-  /* Size of each particle */
-  height: 15px;
-  /* Size of each particle */
-  background: #fff;
-  /* Brighter pink color */
-  border-radius: 50%;
-  /* Circular shape */
-  pointer-events: none;
-  /* Ensure particles don’t interfere with mouse events */
-  opacity: 0;
-  /* Start hidden */
-  transition: transform 0.6s ease-out, opacity 0.6s ease-out;
-  /* Smooth transition */
 }
 
 /* Navbar styles */
